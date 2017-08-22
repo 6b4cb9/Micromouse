@@ -33,7 +33,12 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f4xx_hal.h"
+#include "adc.h"
+#include "ControllerDC.h"
+#include "L293D.h"
+#include "dma.h"
 #include "i2c.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -42,6 +47,8 @@
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
+l293d * demo;
+single_dc *dc;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
@@ -78,11 +85,19 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_I2C1_Init();
   MX_USART2_UART_Init();
+  MX_TIM1_Init();
+  MX_ADC1_Init();
 
   /* USER CODE BEGIN 2 */
   char msg[] = "Hello world!";
+
+
+
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
