@@ -49,24 +49,12 @@
 #define USART_RX_GPIO_Port GPIOA
 #define LD2_Pin GPIO_PIN_5
 #define LD2_GPIO_Port GPIOA
-#define LEFT_DC_A_Pin GPIO_PIN_7
-#define LEFT_DC_A_GPIO_Port GPIOC
-#define LEFT_DC_PWM_Pin GPIO_PIN_8
-#define LEFT_DC_PWM_GPIO_Port GPIOA
-#define RIGHT_DC_PWM_Pin GPIO_PIN_9
-#define RIGHT_DC_PWM_GPIO_Port GPIOA
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
-#define RIGHT_DC_B_Pin GPIO_PIN_10
-#define RIGHT_DC_B_GPIO_Port GPIOC
-#define RIGHT_DC_A_Pin GPIO_PIN_11
-#define RIGHT_DC_A_GPIO_Port GPIOC
 #define SWO_Pin GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
-#define LEFT_DC_B_Pin GPIO_PIN_5
-#define LEFT_DC_B_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
