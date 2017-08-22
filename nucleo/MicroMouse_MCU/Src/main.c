@@ -38,7 +38,9 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-
+//#include "LSM303.h"
+#include <stdbool.h>
+#include "L3GD20H.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -58,6 +60,51 @@ void Error_Handler(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
+//Rejestry
+#define LSM303_ACC_ADDRESS (0b0011101 << 1) // adres akcelerometru: 0011001x
+#define LSM303_ACC_CTRL_REG1_A 0x20 // rejestr ustawien 1
+#define LSM303_ACC_Z_H_A 0x2D // wyzszy bajt danych osi Z
+
+// Maski bitowe
+// CTRL_REG1_A = [ODR3][ODR2][ODR1][ODR0][LPEN][ZEN][YEN][XEN]
+#define LSM303_ACC_Z_ENABLE 0x07 // 0000 0100
+#define LSM303_ACC_100HZ 0x50 //0101 0000
+
+// Zmienne
+uint8_t Data = 0; // Zmienna do bezposredniego odczytu z akcelerometru
+int16_t Zaxis = 0; // Zawiera przeksztalcona forme odczytanych danych
+
+void writeReg(uint8_t address, uint8_t value){
+	HAL_I2C_Mem_Write(&hi2c1, L3GD20H_SHIFTED_ADDRESS, address, 1, &value, 1, 10);
+}
+
+uint8_t readReg(uint8_t address){
+	uint8_t value = 0;
+	HAL_I2C_Mem_Read(&hi2c1, L3GD20H_SHIFTED_ADDRESS, address, 1, &value, 1, 10);
+	return value;
+}
+
+
+void writeNumber(uint8_t num){
+	char str[4];
+	sprintf(str, "%d", num);
+	HAL_UART_Transmit(&huart2, &str, sizeof(str), 10);
+}
+
+bool sayYourName(){
+	char msg[] = "Hi! My names is ";
+	char endl[] = "\n\r";
+	uint8_t data;
+	data = readReg(WHO_AM_I);
+	//HAL_I2C_Mem_Read(&hi2c1, L3GD20H_SHIFTED_ADDRESS, WHO_AM_I, 1, &data, 1, 10);
+	HAL_Delay(10);
+	HAL_UART_Transmit(&huart2, (uint8_t*)msg, sizeof(msg), 10);
+	HAL_Delay(10);
+	writeNumber(data);
+	HAL_UART_Transmit(&huart2, (uint8_t*)endl, sizeof(endl), 10);
+	return (data==215) ? true : false;
+}
+
 
 /* USER CODE END 0 */
 
@@ -82,7 +129,29 @@ int main(void)
   MX_USART2_UART_Init();
 
   /* USER CODE BEGIN 2 */
-  char msg[] = "Hello world!";
+  uint8_t Settings = LSM303_ACC_Z_ENABLE | LSM303_ACC_100HZ;
+  HAL_I2C_Mem_Write(&hi2c1, LSM303_ACC_ADDRESS, LSM303_ACC_CTRL_REG1_A, 1, &Settings, 1, 100);
+
+
+
+  uint8_t outL, outH;
+  uint16_t pitch;
+  char endl[] = "\n\r";
+
+      // 0x00 = 0b00000000
+      // Low_ODR = 0 (low speed ODR disabled)
+    writeReg(LOW_ODR, 0x00);
+
+    // 0x00 = 0b00000000
+    // FS = 00 (+/- 250 dps full scale)
+    writeReg(CTRL4, 0x00);
+
+    // 0x6F = 0b01101111
+    // DR = 01 (200 Hz ODR); BW = 10 (50 Hz bandwidth); PD = 1 (normal mode); Zen = Yen = Xen = 1 (all axes enabled)
+    writeReg(CTRL1, 0x6F);
+
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -92,8 +161,21 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-	  HAL_UART_Transmit(&huart2, msg, sizeof(msg), 10);
-	  HAL_Delay(500);
+	  HAL_I2C_Mem_Read(&hi2c1, LSM303_ACC_ADDRESS, (LSM303_ACC_Z_H_A), 1, &Data, 1, 100);
+	  Zaxis = Data << 8;
+	  HAL_UART_Transmit(&huart2, &Zaxis, sizeof(Data), 10);
+
+	  sayYourName();
+//
+//	  HAL_I2C_Mem_Read(&hi2c1, L3GD20H_SHIFTED_ADDRESS, OUT_X_L, 1, &outL, 1, 10);
+//	  HAL_Delay(10);
+//	  HAL_I2C_Mem_Read(&hi2c1, L3GD20H_SHIFTED_ADDRESS, OUT_X_H, 1, &outH, 1, 10);
+//	  HAL_Delay(10);
+//	  writeNumber(outL);
+//	  HAL_UART_Transmit(&huart2, (uint8_t*)endl, sizeof(endl), 10);
+//	  writeNumber(outH);
+//	  HAL_UART_Transmit(&huart2, (uint8_t*)endl, sizeof(endl), 10);
+	  HAL_Delay(1000);
   }
   /* USER CODE END 3 */
 
