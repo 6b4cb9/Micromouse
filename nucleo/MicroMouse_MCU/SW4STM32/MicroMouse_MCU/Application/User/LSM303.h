@@ -15,6 +15,7 @@
 
 #define LSM303_ACC_ADDRESS 				0b0011101
 #define LSM303_ACC_SHIFTED_ADDRESS		(LSM303_ACC_ADDRESS << 1)
+#define LSM303_GRAVITY 					9.81
 
 bool LSM303_init(I2C_HandleTypeDef *i2c);
 bool LSM303_writeReg(LSM303_regAddr, uint8_t);

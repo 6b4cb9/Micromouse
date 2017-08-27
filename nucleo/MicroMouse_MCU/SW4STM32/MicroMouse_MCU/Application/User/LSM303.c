@@ -98,7 +98,7 @@ float LSM303_getAcceleration(LSM303_axes axis){
 		break;
 	}
 	a = ( h << 8) + l ;
-	ans = ((float)a*maxScale)/(float)INT16_MAX;
+	ans = ((float)a*maxScale)/(float)INT16_MAX*LSM303_GRAVITY;
 	return ans;
 }
 

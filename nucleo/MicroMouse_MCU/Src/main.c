@@ -41,6 +41,8 @@
 //#include "LSM303.h"
 #include <stdbool.h>
 #include "LSM303.h"
+#include  "position.h"
+//#include "position.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -61,9 +63,12 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN 0 */
 
-uint8_t Data = 0; // Zmienna do bezposredniego odczytu z akcelerometru
+
+
 float Zaxis = 0, Yaxis = 0, Xaxis = 0, check = 0;// Zawiera przeksztalcona forme odczytanych danych
 uint8_t name;
+position pos;
+uint32_t absolutTime = 0;
 
 void writeNumber(uint8_t num){
 	char str[4];
@@ -94,12 +99,13 @@ int main(void)
   MX_USART2_UART_Init();
 
   /* USER CODE BEGIN 2 */
-
-  LSM303_init(&hi2c1);
-  LSM303_enableAccelerometer(rate_25Hz, scale_2g);
-  LSM303_axisEnable(axisZ);
-  LSM303_axisEnable(axisY);
-  LSM303_axisEnable(axisX);
+  position_int(&hi2c1);
+//
+//  LSM303_init(&hi2c1);
+//  LSM303_enableAccelerometer(rate_25Hz, scale_2g);
+//  LSM303_axisEnable(axisZ);
+//  LSM303_axisEnable(axisY);
+//  LSM303_axisEnable(axisX);
   //LSM303_startSelfTest();
   /* USER CODE END 2 */
 
@@ -112,11 +118,13 @@ int main(void)
   /* USER CODE BEGIN 3 */
 	 name = LSM303_whoAmI();
 	 writeNumber(name);
+
+	 position_get(&pos, absolutTime);
 	 Xaxis = LSM303_getAcceleration(axisX);
 	 Yaxis = LSM303_getAcceleration(axisY);
 	 Zaxis = LSM303_getAcceleration(axisZ);
 	 check = Xaxis*Xaxis + Yaxis*Yaxis + Zaxis*Zaxis;
-	 HAL_Delay(100);
+	 HAL_Delay(200);
   }
   /* USER CODE END 3 */
 
