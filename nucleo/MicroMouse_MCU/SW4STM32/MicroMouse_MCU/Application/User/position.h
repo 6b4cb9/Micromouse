@@ -19,5 +19,6 @@ typedef struct position{
 
 bool position_int(I2C_HandleTypeDef *i2c);
 void position_get(position * pos, uint32_t time);
+void position_calibrate(void);
 
 #endif /* POSITION_H_ */

@@ -100,6 +100,7 @@ int main(void)
 
   /* USER CODE BEGIN 2 */
   position_int(&hi2c1);
+  position_calibrate();
 //
 //  LSM303_init(&hi2c1);
 //  LSM303_enableAccelerometer(rate_25Hz, scale_2g);

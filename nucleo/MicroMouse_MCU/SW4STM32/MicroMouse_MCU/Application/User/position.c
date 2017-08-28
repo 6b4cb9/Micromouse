@@ -7,6 +7,8 @@
 
 #include "position.h"
 
+float aXoffset, aYoffset, aZoffset;
+
 I2C_HandleTypeDef * device;
 float aX, aY, aZ;
 float vX, vY, vZ;
@@ -24,9 +26,12 @@ bool position_int(I2C_HandleTypeDef * i2c){
 	vX = 0;
 	vY = 0;
 	vZ = 0;
+	aXoffset = 0;
+	aYoffset = 0;
+	aZoffset = 0;
 	lastTime = 0;
 	control &= LSM303_init(i2c);
-	control &= LSM303_enableAccelerometer(rate_200Hz, scale_2g);
+	control &= LSM303_enableAccelerometer(rate_25Hz, scale_2g);
 	control &= LSM303_axisEnable(axisZ);
 	control &= LSM303_axisEnable(axisY);
 	control &= LSM303_axisEnable(axisX);
@@ -39,9 +44,9 @@ void position_get(position * pos, uint32_t time){
 
 	float newAx, newAy, newAz;
 
-	newAx = LSM303_getAcceleration(axisX);
-	newAy = LSM303_getAcceleration(axisY);
-	newAz = LSM303_getAcceleration(axisZ);
+	newAx = LSM303_getAcceleration(axisX) - aXoffset;
+	newAy = LSM303_getAcceleration(axisY) - aYoffset;
+	newAz = LSM303_getAcceleration(axisZ) - aZoffset;
 
 	pos -> xV += dx(dt, newAx, aX);
 	pos -> yV += dx(dt, newAy, aY);
@@ -58,4 +63,21 @@ void position_get(position * pos, uint32_t time){
 	vX = pos -> xV;
 	vY = pos -> yV;
 	vZ = pos -> zV;
+}
+
+void position_calibrate(){
+	HAL_Delay(1000);
+	uint32_t iterations = 128;
+	aXoffset = 0;
+	aYoffset = 0;
+	aZoffset = 0;
+	for(uint32_t i =0; i < iterations ; i++){
+		aXoffset += LSM303_getAcceleration(axisX);
+		aYoffset += LSM303_getAcceleration(axisY);
+		aZoffset += LSM303_getAcceleration(axisZ);
+		HAL_Delay(50);
+	}
+	aXoffset /= iterations;
+	aYoffset /= iterations;
+	aZoffset /= iterations;
 }
