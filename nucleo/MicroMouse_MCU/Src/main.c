@@ -42,6 +42,7 @@
 #include <stdbool.h>
 #include "LSM303.h"
 #include  "position.h"
+#include "userInterface.h"
 //#include "position.h"
 /* USER CODE END Includes */
 
@@ -70,11 +71,6 @@ uint8_t name;
 position pos;
 uint32_t absolutTime = 0;
 
-void writeNumber(uint8_t num){
-	char str[4];
-	sprintf(str, "%d", num);
-	HAL_UART_Transmit(&huart2, &str, sizeof(str), 10);
-}
 
 /* USER CODE END 0 */
 
@@ -100,14 +96,9 @@ int main(void)
 
   /* USER CODE BEGIN 2 */
   position_int(&hi2c1);
-  position_calibrate();
-//
-//  LSM303_init(&hi2c1);
-//  LSM303_enableAccelerometer(rate_25Hz, scale_2g);
-//  LSM303_axisEnable(axisZ);
-//  LSM303_axisEnable(axisY);
-//  LSM303_axisEnable(axisX);
-  //LSM303_startSelfTest();
+
+  ui_init(&huart2);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -118,13 +109,25 @@ int main(void)
 
   /* USER CODE BEGIN 3 */
 	 name = LSM303_whoAmI();
-	 writeNumber(name);
 
 	 position_get(&pos, absolutTime);
 	 Xaxis = LSM303_getAcceleration(axisX);
 	 Yaxis = LSM303_getAcceleration(axisY);
 	 Zaxis = LSM303_getAcceleration(axisZ);
 	 check = Xaxis*Xaxis + Yaxis*Yaxis + Zaxis*Zaxis;
+
+	 ui_writeText("Time:\t\t\t");
+	 ui_writeTime(absolutTime);
+	 ui_writeText("\n\r");
+	 ui_writeText("Acceleration at x:\t");
+	 ui_writeFloat(Xaxis);
+	 ui_writeText("\n\r");
+	 ui_writeText("Acceleration at y:\t");
+	 ui_writeFloat(Yaxis);
+	 ui_writeText("\n\r");
+	 ui_writeText("Acceleration at z:\t");
+	 ui_writeFloat(Zaxis);
+	 ui_writeText("\n\r");
 	 HAL_Delay(200);
   }
   /* USER CODE END 3 */

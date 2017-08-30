@@ -37,4 +37,6 @@ uint16_t LSM303_getTemp(void);
 bool LSM303_startSelfTest(void);
 bool LSM303_endSelfTest(void);
 
+bool LSM303_enableMagnetometer(LSM303_rate, LSM303_accelerationFullScale);
+
 #endif /* APPLICATION_USER_LSM303_H_ */
