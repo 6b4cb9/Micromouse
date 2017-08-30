@@ -21,14 +21,14 @@ bool ui_init(UART_HandleTypeDef * uart);
 
 
 inline bool ui_writeText(char * str){
-	bool ans = HAL_UART_Transmit(ui_device, str, strlen(str), UI_TIMEOUT);
+	bool ans = HAL_UART_Transmit(ui_device, (uint8_t *)str, strlen(str), UI_TIMEOUT);
 	return ans;
 }
 
 inline bool ui_writeNumber(int num){
 	char str[11];
 	sprintf(str, "%d", num);
-	bool ans = HAL_UART_Transmit(ui_device, str, strlen(str), UI_TIMEOUT);
+	bool ans = HAL_UART_Transmit(ui_device, (uint8_t *)str, strlen(str), UI_TIMEOUT);
 	return ans;
 }
 
@@ -60,12 +60,11 @@ inline bool ui_writeTime(unsigned int time){
 	strcat(ch, cs);
 	strcat(ch, ",");
 	strcat(ch, cms);
-	bool ans = HAL_UART_Transmit(ui_device, ch, strlen(ch), UI_TIMEOUT);
+	bool ans = HAL_UART_Transmit(ui_device, (uint8_t *)ch, strlen(ch), UI_TIMEOUT);
 	return ans;
 }
 
 inline bool ui_writeFloat(float num){
-	ui_writeText("\n\r");
 	int flor = (int)num;
 	int friction = abs((int)(100 * num) % 100);
 	char c[20];
@@ -77,7 +76,7 @@ inline bool ui_writeFloat(float num){
 		 strcat(c, "0");
 	}
 	strcat(c, cfric);
-	bool ans = HAL_UART_Transmit(ui_device, c, strlen(c), UI_TIMEOUT);
+	bool ans = HAL_UART_Transmit(ui_device, (uint8_t *)c, strlen(c), UI_TIMEOUT);
 	return ans;
 }
 
