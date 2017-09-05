@@ -41,6 +41,7 @@
 //#include "LSM303.h"
 #include <stdbool.h>
 #include "LSM303.h"
+#include "L3GD20H.h"
 #include  "position.h"
 #include "userInterface.h"
 //#include "position.h"
@@ -66,12 +67,14 @@ void Error_Handler(void);
 
 
 
-float Zaxis = 0, Yaxis = 0, Xaxis = 0, check = 0;// Zawiera przeksztalcona forme odczytanych danych
-uint8_t name;
-position pos;
-uint32_t absolutTime = 0;
-
-
+volatile float Zaxis = 0, Yaxis = 0, Xaxis = 0, check = 0;// Zawiera przeksztalcona forme odczytanych danych
+volatile float mx, my, mz;
+volatile uint8_t name;
+volatile position pos;
+volatile uint32_t absolutTime = 0;
+volatile uint8_t reg[8];
+uint8_t test;
+vector3D angles;
 /* USER CODE END 0 */
 
 int main(void)
@@ -95,9 +98,16 @@ int main(void)
   MX_USART2_UART_Init();
 
   /* USER CODE BEGIN 2 */
-  position_int(&hi2c1);
 
+  HAL_Delay(1000);
+  test = position_int(&hi2c1);
+  L3GD20H_Init(&hi2c1);
+  //LSM303_enableMagnetometer(mrate_25Hz, scale_4g);
+  HAL_Delay(10);
+  LSM303_reset();
   ui_init(&huart2);
+
+
 
   /* USER CODE END 2 */
 
@@ -109,7 +119,7 @@ int main(void)
 
   /* USER CODE BEGIN 3 */
 	 name = LSM303_whoAmI();
-
+	 LSM303_enableAccelerometer(rate_50Hz, scale_2g);
 	 position_get(&pos, absolutTime);
 	 Xaxis = LSM303_getAcceleration(axisX);
 	 Yaxis = LSM303_getAcceleration(axisY);
@@ -128,7 +138,28 @@ int main(void)
 	 ui_writeText("Acceleration at z:\t");
 	 ui_writeFloat(Zaxis);
 	 ui_writeText("\n\r");
-	 HAL_Delay(200);
+	 LSM303_enableMagnetometer(mrate_25Hz, scale_4g);
+	 mx = LSM303_getInduction(axisX);
+	 my = LSM303_getInduction(axisY);
+	 mz = LSM303_getInduction(axisZ);
+
+	 ui_writeText("Induction at x:\t\t");
+	 ui_writeFloat(mx);
+	 ui_writeText("\n\r");
+	 ui_writeText("Induction at y:\t\t");
+	 ui_writeFloat(my);
+	 ui_writeText("\n\r");
+	 ui_writeText("Induction at z:\t\t");
+	 ui_writeFloat(mz);
+	 ui_writeText("\n\r");
+	 HAL_Delay(20);
+
+	 for(uint8_t i =0; i<8; i++){
+		 HAL_Delay(10);
+		 reg[i] = LSM303_readReg(CTRL0 + i);
+	 }
+	 angles = L3GD20_getAngles();
+
   }
   /* USER CODE END 3 */
 

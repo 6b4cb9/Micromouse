@@ -31,10 +31,13 @@ bool position_int(I2C_HandleTypeDef * i2c){
 	aZoffset = 0;
 	lastTime = 0;
 	control &= LSM303_init(i2c);
-	control &= LSM303_enableAccelerometer(rate_25Hz, scale_2g);
+	control &= LSM303_reset();
+	control &= LSM303_enableAccelerometer(rate_50Hz, scale_2g);
 	control &= LSM303_axisEnable(axisZ);
 	control &= LSM303_axisEnable(axisY);
 	control &= LSM303_axisEnable(axisX);
+
+	//control &= LSM303_enableMagnetometer(mrate_25Hz, scale_4g);
 	return control;
 }
 

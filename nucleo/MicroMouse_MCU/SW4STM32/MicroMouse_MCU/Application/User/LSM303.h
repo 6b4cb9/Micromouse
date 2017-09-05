@@ -22,8 +22,9 @@ bool LSM303_writeReg(LSM303_regAddr, uint8_t);
 uint8_t LSM303_readReg(LSM303_regAddr);
 uint8_t LSM303_whoAmI(void);
 bool LSM303_reset();
-bool LSM303_enableAccelerometer(LSM303_rate, LSM303_accelerationFullScale);
 
+
+bool LSM303_enableAccelerometer(LSM303_rate, LSM303_accelerationFullScale);
 bool LSM303_axisEnable(LSM303_axes);
 bool LSM303_axiesDisable(LSM303_axes);
 float LSM303_getAcceleration(LSM303_axes);
@@ -37,6 +38,7 @@ uint16_t LSM303_getTemp(void);
 bool LSM303_startSelfTest(void);
 bool LSM303_endSelfTest(void);
 
-bool LSM303_enableMagnetometer(LSM303_rate, LSM303_accelerationFullScale);
+bool LSM303_enableMagnetometer(LSM303_magneticRate, LSM303_magnetometerFullScale);
+float LSM303_getInduction(LSM303_axes);
 
 #endif /* APPLICATION_USER_LSM303_H_ */

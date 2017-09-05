@@ -28,6 +28,15 @@ typedef enum LSM303_rate{
 	rate_1600Hz		= 10,
 }LSM303_rate;
 
+typedef enum LSM303_magneticRate{
+	mate_3Hz125		= 0,
+	mrate_6Hz25		= 1,
+	mrate_12Hz5		= 2,
+	mrate_25Hz		= 3,
+	mrate_50Hz		= 4,
+	mrate_100Hz		= 5,
+}LSM303_magneticRate;
+
 typedef enum LSM303_accelerationFullScale{
 	scale_2g	= 0,
 	scale_4g	= 1,
@@ -37,12 +46,28 @@ typedef enum LSM303_accelerationFullScale{
 
 }LSM303_accelerationFullScale;
 
+typedef enum LSM303_magnetometerFullScale{
+	scale_2gauss 	= 0,
+	scale_4gauss 	= 1,
+	scale_8gauss 	= 2,
+	scale_12gauss 	= 3,
+}LSM303_magnetometerFullScale;
+
 typedef enum LSM303_regAddr
 {
   TEMP_OUT_L        = 0x05,
   TEMP_OUT_H        = 0x06,
 
   STATUS_M          = 0x07,
+
+  OUT_X_L_M         = 0x08,
+  OUT_X_H_M         = 0x09,
+  OUT_Y_L_M         = 0x0A,
+  OUT_Y_H_M         = 0x0B,
+  OUT_Z_L_M         = 0x0C,
+  OUT_Z_H_M         = 0x0D,
+
+  WHO_AM_I			= 0x0F,
 
   INT_CTRL_M        = 0x12,
   INT_SRC_M         = 0x13,
@@ -97,20 +122,6 @@ typedef enum LSM303_regAddr
 
   Act_THS           = 0x3E,
   Act_DUR           = 0x3F,
-
-  CRA_REG_M         = 0x00,
-  CRB_REG_M         = 0x01,
-  MR_REG_M          = 0x02,
-
-  SR_REG_M          = 0x09,
-  IRA_REG_M         = 0x0A,
-  IRB_REG_M         = 0x0B,
-  IRC_REG_M         = 0x0C,
-
-  WHO_AM_I          = 0x0F,
-
-  TEMP_OUT_H_M      = 0x31,
-  TEMP_OUT_L_M      = 0x32,
 }LSM303_regAddr;
 
 
