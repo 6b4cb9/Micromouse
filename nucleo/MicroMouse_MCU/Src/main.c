@@ -41,12 +41,13 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-//#include "LSM303.h"
 #include <stdbool.h>
 #include "LSM303.h"
 #include "L3GD20H.h"
 #include  "position.h"
 #include "userInterface.h"
+#include "vector3D.h"
+#include "imu.h"
 //#include "position.h"
 /* USER CODE END Includes */
 
@@ -110,12 +111,11 @@ int main(void)
 
   HAL_Delay(1000);
   test = position_int(&hi2c1);
-  L3GD20H_Init(&hi2c1);
   //LSM303_enableMagnetometer(mrate_25Hz, scale_4g);
   HAL_Delay(10);
   LSM303_reset();
   ui_init(&huart2);
-
+  imu_init(&hi2c1);
 
 
   /* USER CODE END 2 */
@@ -163,11 +163,7 @@ int main(void)
 	 ui_writeText("\n\r");
 	 HAL_Delay(20);
 
-	 for(uint8_t i =0; i<8; i++){
-		 HAL_Delay(10);
-		 reg[i] = LSM303_readReg(CTRL0 + i);
-	 }
-	 angles = L3GD20_getAngles();
+	 angles = imu_getAngleVelocity();
 
   }
   /* USER CODE END 3 */
