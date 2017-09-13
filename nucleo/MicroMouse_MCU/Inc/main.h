@@ -43,18 +43,52 @@
 
 #define B1_Pin GPIO_PIN_13
 #define B1_GPIO_Port GPIOC
+#define WALL_1_Pin GPIO_PIN_0
+#define WALL_1_GPIO_Port GPIOA
+#define WALL_2_Pin GPIO_PIN_1
+#define WALL_2_GPIO_Port GPIOA
 #define USART_TX_Pin GPIO_PIN_2
 #define USART_TX_GPIO_Port GPIOA
 #define USART_RX_Pin GPIO_PIN_3
 #define USART_RX_GPIO_Port GPIOA
+#define WALL_3_Pin GPIO_PIN_4
+#define WALL_3_GPIO_Port GPIOA
 #define LD2_Pin GPIO_PIN_5
 #define LD2_GPIO_Port GPIOA
+#define WALL_4_Pin GPIO_PIN_6
+#define WALL_4_GPIO_Port GPIOA
+#define BATTERY_1_Pin GPIO_PIN_7
+#define BATTERY_1_GPIO_Port GPIOA
+#define BATTERY_2_Pin GPIO_PIN_0
+#define BATTERY_2_GPIO_Port GPIOB
+#define BATTERY_3_Pin GPIO_PIN_1
+#define BATTERY_3_GPIO_Port GPIOB
+#define LED_B_Pin GPIO_PIN_10
+#define LED_B_GPIO_Port GPIOB
+#define BUZZER_Pin GPIO_PIN_6
+#define BUZZER_GPIO_Port GPIOC
+#define LEFT_DC_A_Pin GPIO_PIN_7
+#define LEFT_DC_A_GPIO_Port GPIOC
+#define LEFT_DC_PWM_Pin GPIO_PIN_8
+#define LEFT_DC_PWM_GPIO_Port GPIOA
+#define RIGHT_DC_PWM_Pin GPIO_PIN_9
+#define RIGHT_DC_PWM_GPIO_Port GPIOA
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
+#define LED_R_Pin GPIO_PIN_15
+#define LED_R_GPIO_Port GPIOA
+#define RIGHT_DC_B_Pin GPIO_PIN_10
+#define RIGHT_DC_B_GPIO_Port GPIOC
+#define RIGHT_DC_A_Pin GPIO_PIN_11
+#define RIGHT_DC_A_GPIO_Port GPIOC
 #define SWO_Pin GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
+#define LEFT_DC_B_Pin GPIO_PIN_5
+#define LEFT_DC_B_GPIO_Port GPIOB
+#define LED_G_Pin GPIO_PIN_9
+#define LED_G_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
