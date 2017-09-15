@@ -2,7 +2,7 @@
  * imu.h
  *
  *  Created on: 6 wrz 2017
- *      Author: Chupacabra
+ *      Author: Marcin Rosenhof
  */
 
 //TODO: change &hi2c1 for #define
@@ -21,7 +21,7 @@
 #include  "L3GD20H.h"
 #include "stm32f4xx_hal.h"
 
-uint8_t imu_init(void);
+HAL_StatusTypeDef imu_init(void);
 vector3D imu_getAcceleration(void);
 vector3D imu_getGravity(void);
 vector3D imu_getAngleVelocity(void);

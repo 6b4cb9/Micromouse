@@ -42,11 +42,9 @@
 
 /* USER CODE BEGIN Includes */
 #include <stdbool.h>
-#include "LSM303.h"
-#include "L3GD20H.h"
 #include "userInterface.h"
 #include "vector3D.h"
-#include "imu.h"
+#include "position.h"
 //#include "position.h"
 /* USER CODE END Includes */
 
@@ -69,8 +67,7 @@ void Error_Handler(void);
 /* USER CODE BEGIN 0 */
 
 volatile uint32_t absolutTime = 0;
-vector3D w, g, mag;
-uint8_t name;
+extern vector3D w, g, mag;
 HAL_StatusTypeDef status;
 /* USER CODE END 0 */
 
@@ -117,11 +114,9 @@ int main(void)
 
   /* USER CODE BEGIN 3 */
 
-	 //LSM303_enableMagnetometer(mrate_25Hz, scale_4g);
-	 w = imu_getAngleVelocity();
-	 g = imu_getGravity();
-	 mag = imu_getInduction();
-	 HAL_Delay(100);
+	  status = pos_calculate();
+	  HAL_Delay(50);
+
   }
   /* USER CODE END 3 */
 

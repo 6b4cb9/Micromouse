@@ -2,7 +2,7 @@
  * L3GD20H.h
  *
  *  Created on: 15 sie 2017
- *      Author: Chupacabra
+ *      Author: Marcin Rosenhof
  */
 
 #ifndef APPLICATION_USER_L3GD20H_H_

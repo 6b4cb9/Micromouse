@@ -2,7 +2,7 @@
  * imu.c
  *
  *  Created on: 6 wrz 2017
- *      Author: Chupacabra
+ *      Author: Marcin Rosenhof
  */
 
 //typedef enum
@@ -17,24 +17,35 @@
 #include "imu.h"
 
 
-uint8_t imu_init(){
+HAL_StatusTypeDef imu_init(){
+	HAL_StatusTypeDef status;
 	uint8_t data;
 
 	// Gyro
 	data = 0b00101111;	// Band width=100Hz, cut off=25Hz, power on, xyz enable
-	gyro_writeReg(gyro_CTRL1, data);
-
+	status = gyro_writeReg(gyro_CTRL1, data);
+	if(status != HAL_OK){
+		return status;
+	}
 	//Acc
 	data = 0b01100111; // Rate=100z, xyz enable, scale =2g
-	acc_writeReg(acc_CTRL1, data);
+	status = acc_writeReg(acc_CTRL1, data);
+	if(status != HAL_OK){
+		return status;
+	}
 
 	//Magneto
 	data = 0b01111100; // Rate=100z, igh resolution, scale=2gauss
-	acc_writeReg(acc_CTRL5, data);
+	status = acc_writeReg(acc_CTRL5, data);
+	if(status != HAL_OK){
+		return status;
+	}
 	data = 0b00000001; // countinous converiosn
-	acc_writeReg(acc_CTRL7, data);
-	return 0;
-
+	status = acc_writeReg(acc_CTRL7, data);
+	if(status != HAL_OK){
+		return status;
+	}
+	return HAL_OK;
 }
 
 vector3D imu_getAcceleration(void){
@@ -44,6 +55,7 @@ vector3D imu_getAcceleration(void){
 }
 
 vector3D imu_getGravity(void){
+	acc_writeReg(acc_CTRL1, 0b01100111);
 	vector3D g;
 	uint8_t l = 0, h = 0;
 	int16_t tmp;

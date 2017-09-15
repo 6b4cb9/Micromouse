@@ -2,7 +2,7 @@
  * LSM303.h
  *
  *  Created on: 22 sie 2017
- *      Author: Chupacabra
+ *      Author: Marcin Rosenhof
  */
 
 #ifndef APPLICATION_USER_LSM303_H_
