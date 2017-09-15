@@ -18,5 +18,5 @@ bool UI_writeNumberTest();
 bool UI_writeTimeTest();
 bool UI_complexTest(UART_HandleTypeDef * device);
 
-
+extern I2C_HandleTypeDef * device;
 #endif /* TEST_USERINTERFACE_H_ */
