@@ -90,6 +90,8 @@ vector3D imu_getAngleVelocity(void){
 }
 
 vector3D imu_getInduction(void){
+	acc_writeReg(acc_CTRL7, 0b00000001);
+
 	vector3D g;
 	uint8_t l = 0, h = 0;
 	int16_t tmp;

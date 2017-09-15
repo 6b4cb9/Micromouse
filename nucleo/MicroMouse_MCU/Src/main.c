@@ -69,7 +69,7 @@ void Error_Handler(void);
 /* USER CODE BEGIN 0 */
 
 volatile uint32_t absolutTime = 0;
-vector3D w, g;
+vector3D w, g, mag;
 uint8_t name;
 HAL_StatusTypeDef status;
 /* USER CODE END 0 */
@@ -120,9 +120,7 @@ int main(void)
 	 //LSM303_enableMagnetometer(mrate_25Hz, scale_4g);
 	 w = imu_getAngleVelocity();
 	 g = imu_getGravity();
-	 HAL_Delay(100);
-	 status = gyro_readReg(gyro_WHO_AM_I, &name);
-	 //status = HAL_I2C_Mem_Read(&hi2c1, 0b00111010, 0x0F, 1, &name, 1, 10);
+	 mag = imu_getInduction();
 	 HAL_Delay(100);
   }
   /* USER CODE END 3 */
