@@ -115,6 +115,18 @@ int main(void)
   /* USER CODE BEGIN 3 */
 
 	  status = pos_calculate();
+	  ui_writeFloat(g.x);
+	  ui_writeText(" ");
+	  ui_writeFloat(g.y);
+	  ui_writeText(" ");
+	  ui_writeFloat(g.z);
+	  ui_writeText(" ");
+	  ui_writeFloat(w.x);
+	  ui_writeText(" ");
+	  ui_writeFloat(w.y);
+	  ui_writeText(" ");
+	  ui_writeFloat(w.z);
+	  ui_writeText("\n");
 	  HAL_Delay(50);
 
   }
